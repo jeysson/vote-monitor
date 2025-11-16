@@ -9,8 +9,8 @@ class LegislatorRepository(ABC):
 
     @abstractmethod
     def get_all(self) -> List[Legislator]:
-        raise NotImplementedError
+        pass
     
     @abstractmethod
     def get_by_id(self, legislator_id: int) -> Optional[Legislator]:
-        raise NotImplementedError
+        pass

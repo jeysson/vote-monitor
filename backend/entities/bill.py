@@ -4,5 +4,5 @@ from dataclasses import dataclass
 class Bill:    
     id: int
     title: str
-    sponsor_id: str
+    sponsor_id: int
 
