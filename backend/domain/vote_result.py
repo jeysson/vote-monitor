@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class VoteResults:
+class VoteResult:
     # The id of the VoteResult
     id: int
 

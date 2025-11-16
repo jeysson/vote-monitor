@@ -1,39 +1,21 @@
 import csv
 from typing import List, Optional
-from backend.entities.legislator import Legislator
-from backend.repositories.legislator_repository import LegislatorRepository
+from backend.domain.legislator import Legislator
+from backend.interfaces.legislator_repository import LegislatorRepository
+from backend.infrastructure.csv.loaders.legislator_loader import load_legislators_from_csv
 
 class CSVLegislatorRepository(LegislatorRepository):
-    """Reads legislators from a CSV file.
-    Expected CSV header: id,name
-    """
+
 
     def __init__(self, filepath: str):
         self.filepath = filepath
 
     def get_all(self) -> List[Legislator]:
-        legislators: List[Legislator] = []
-        with open(self.filepath, newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                
-                legislator = Legislator(
-                    id=int(row['id']),
-                    name=row['name']
-                )
-
-                if legislator.id is not None:
-                    legislators.append(legislator)    
-                
-        return legislators
+        return list(load_legislators_from_csv(self.filepath))
     
     def get_by_id(self, id: int) -> Optional[Legislator]:
-        with open(self.filepath, newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                if int(row['id']) == id:
-                    return Legislator(
-                        id=int(row['id']),
-                        name=row['name']
-                    )
+        for legislator in load_legislators_from_csv(self.filepath):
+            if legislator.id == id:
+                return legislator
+            
         return None
