@@ -2,5 +2,5 @@ from dataclasses import dataclass
 
 @dataclass
 class Vote:
-    id = "",
-    bill_id = ""
+    id: int
+    bill_id: str

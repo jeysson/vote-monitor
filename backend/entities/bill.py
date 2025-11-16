@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Bill:    
-    id = ""
-    title = ""
-    sponsor_id = ""
+    id: int
+    title: str
+    sponsor_id: str
 
