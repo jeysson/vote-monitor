@@ -4,7 +4,7 @@ from backend.infrastructure.csv.csv_bill_repository import CSVBillRepository
 from backend.infrastructure.csv.csv_legislator_repository import CSVLegislatorRepository
 from backend.infrastructure.csv.csv_vote_repository import CSVVoteRepository
 from backend.infrastructure.csv.csv_vote_result_repository import CSVVoteResultRepository
-from backend.services.bill_vote_summary_service import BillVoteSummaryService
+from backend.services.bill_vote_service import BillVoteService
 
 CSV_BILLS = """id,title,sponsor_id
 2952375,H.R. 5376: Build Back Better Act,1603850
@@ -69,7 +69,7 @@ def test_bill_vote_summary():
                     vote_repo = CSVVoteRepository(vote_csv.name)
                     vote_result_repo =  CSVVoteResultRepository(vote_result_csv.name)
 
-                    service = BillVoteSummaryService(
+                    service = BillVoteService(
                         bill_repo=bill_repo,
                         legislator_repo=legislator_repo,
                         vote_repo=vote_repo,

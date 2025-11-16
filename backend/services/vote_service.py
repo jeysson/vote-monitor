@@ -45,3 +45,17 @@ class VoteService:
         opposed = sum(1 for record in records if record['vote_type'] == 2)
 
         return { "supported": supported, "opposed": opposed }
+    
+    def get_all_legislator_summaries(self) -> List[Dict]:
+        """Return list of summaries for all legislators."""
+
+        legislators = self.leg_repo.get_all()
+        summaries = []
+
+        for legislator in legislators:
+            summary = self.get_legislator_summary(legislator.id)
+            summary['legislator_id'] = legislator.id
+            summary['legislator_name'] = legislator.name
+            summaries.append(summary)
+
+        return summaries

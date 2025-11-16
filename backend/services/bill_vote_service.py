@@ -4,7 +4,7 @@ from backend.interfaces.vote_result_repository import VoteResultRepository
 from backend.interfaces.legislator_repository import LegislatorRepository
 from backend.domain.bill_summary import BillSummary
 
-class BillVoteSummaryService:
+class BillVoteService:
 
     def __init__(self, bill_repo: BillRepository, 
                  legislator_repo: LegislatorRepository, 
@@ -37,3 +37,8 @@ class BillVoteSummaryService:
             opposers=opposers,
             primary_sponsor=sponsor.name if sponsor else "Unknown"
         )
+
+    def get_all_bill_summaries(self):
+        bills = self.bill_repo.get_all()
+        return [self.get_bill_summary(b.id) for b in bills]
+
