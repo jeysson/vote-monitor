@@ -17,7 +17,7 @@ VOTE_CSV = """id,bill_id
 """
 
 VOTE_RESULT_CSV = """id,legislator_id,vote_id,vote_type
-92516784,400440,3321166,2
+92516784,1852382,3321166,2
 92516770,17941,3321166,2
 92516768,400414,3321166,2
 92516640,904789,3321166,2
@@ -28,7 +28,7 @@ VOTE_RESULT_CSV = """id,legislator_id,vote_id,vote_type
 92516500,905216,3321166,1
 92516499,1269767,3321166,1
 92516373,904789,3321166,1
-92516368,1603850,3321166,1
+92516368,904796,3321166,1
 92280168,1269790,3314452,2
 92280136,1269778,3314452,2
 92280128,905216,3314452,2
@@ -68,4 +68,31 @@ def test_legislator_summary_supported_and_opposed():
 
                 assert summary['supported'] == 1
                 assert summary['opposed'] == 2
+
+def test_get_all_legislator_summaries():
+    with tempfile.NamedTemporaryFile(mode='w+', delete=False, encoding='utf-8') as leg_csv:
+        leg_csv.write(LEG_CSV)
+        leg_csv.flush()
+
+        with tempfile.NamedTemporaryFile(mode='w+', delete=False, encoding='utf-8') as vote_csv:
+            vote_csv.write(VOTE_CSV)
+            vote_csv.flush()
+
+            with tempfile.NamedTemporaryFile(mode='w+', delete=False, encoding='utf-8') as vote_result_csv:
+                vote_result_csv.write(VOTE_RESULT_CSV)
+                vote_result_csv.flush()
+
+                legislator_repo = CSVLegislatorRepository(leg_csv.name)
+                vote_repo = CSVVoteRepository(vote_csv.name)
+                vote_result_repo = CSVVoteResultRepository(vote_result_csv.name)
+
+                vote_service = VoteService(
+                    legislator_repo=legislator_repo,
+                    vote_repo=vote_repo,
+                    vote_result_repo=vote_result_repo
+                )
+
+                summaries = vote_service.get_all_legislator_summaries()
+
+                assert len(summaries) == 4
 

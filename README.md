@@ -1,84 +1,97 @@
-# Vote Monitor
+# Vote Monitor Application
 
-**Vote Monitor** is a system for tracking and analyzing congressional votes, built with Python and FastAPI on the backend, and ReactJS on the frontend.  
-The system allows you to query:
-
-1. For each legislator: how many bills they supported and how many they opposed.
-2. For each bill: how many legislators supported it, how many opposed it, and who the primary sponsor is.
+This project is a web application for monitoring bills and legislators. It is divided into **backend** and **frontend** modules, and can be run either **locally** or **via Docker**.
 
 ---
 
-## 📂 Project Structure
-```
-vote-monitor
-├── requirements.txt
-├── README.md
-├── backend
-│ ├── api
-│ │ ├── main.py
-│ │ └── routes/
-│ ├── data
-│ │ ├── bills.csv
-│ │ ├── legislators.csv
-│ │ ├── votes.csv
-│ │ └── vote_results.csv
-│ ├── domain
-│ ├── infrastructure
-│ ├── interfaces
-│ ├── services
-│ ├── tests
-│ └── utils
-├── frontend
-└── config
-└── settings.yaml
-```
+## Table of Contents
+
+1. [Technologies](#technologies)  
+2. [Backend Setup](#backend-setup)  
+3. [Frontend Setup](#frontend-setup)  
+4. [Running with Docker](#running-with-docker)  
+5. [Running Locally](#running-locally)  
+6. [Scripts](#scripts)  
 
 ---
 
-## ⚡ Requirements
+## Technologies
 
-- Python 3.12+
-- Virtualenv or conda
-- Dependencies listed in `requirements.txt`
+- **Backend:** Python 3.12, FastAPI, Uvicorn  
+- **Frontend:** React, Hooks (useEffect, useState)  
+- **Docker:** Docker & Docker Compose  
+- **Other:** CORS, Axios (frontend API calls), Pandas/csv (optional CSV handling)  
 
 ---
 
-## 🛠️ Environment Setup
+## Backend Setup
 
-1. Create and activate the virtual environment:
+1. **Install Python 3.12** if not installed.  
 
-```bash
-python -m venv venv
-source venv/bin/activate       # Linux / WSL
-```
+2. **Create virtual environment**:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # Linux/macOS
+   venv\Scripts\activate     # Windows
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+3. **Install dependencies:**
+   ```bash
+   pip install -r backend/requirements.txt
 
-## Run the Tests
+4. **Run backend locally:**
+   ```bash
+   uvicorn backend.api.main:app --reload
+Backend will run at http://127.0.0.1:8000
 
-To run all tests:This will execute all unit tests inside backend/tests/.
 
-```bash
-pytest -vv
-```
+## Frontend Setup
 
-## 🚀 Run the Project (FastAPI)
+1. **Install Node.js and npm** (Node >=18 recommended).
 
-Start the API:
+2. **Navigate to the frontend folder:**
+   ```bash
+   cd frontend
 
-```bash
-uvicorn backend.api.main:app --reload
-```
+3. **Install dependencies:**
+   ```bash
+   npm install
 
-Available endpoints:
+4. **Run frontend locally:**
+   ```bash
+   npm start
 
-Returns, for each legislator, the total number of bills supported and opposed.
+Frontend will run at http://localhost:3000
 
-GET http://127.0.0.1:8000/legislators/summary
+## Running with Docker
 
-Returns, for each bill, the total number of supporters and opponents, and the primary sponsor.
+1. Make sure **Docker** and **Docker Compose** are installed.
 
-GET http://127.0.0.1:8000/bills/summary
+2. Use the script to build images and start containers:
+   ```bash
+   ./run_docker.sh
+
+
+3. The backend will run at http://0.0.0.0:8000 and the frontend at http://0.0.0.0:3000
+
+## Running Locally
+
+1. Use the script to setup virtual environments, install dependencies, and run the app locally:
+   ```bash
+   ./run_local.sh
+
+
+2. The backend and frontend will run in development mode with live reload.
+
+## Scripts
+**run_docker.sh**
+
+- Builds Docker images for backend and frontend.
+- Starts all services using Docker Compose.
+- Intended for production-ready execution.
+
+**run_local.sh**
+
+- Creates a Python virtual environment for the backend.
+- Installs all dependencies for backend and frontend.
+- Runs backend and frontend locally in development mode.
+- Ideal for active development with live reload.
