@@ -11,7 +11,8 @@ This project is a web application for monitoring bills and legislators. It is di
 3. [Frontend Setup](#frontend-setup)  
 4. [Running with Docker](#running-with-docker)  
 5. [Running Locally](#running-locally)  
-6. [Scripts](#scripts)  
+6. [Running Backend Unit Tests](#running-backend-unit-tests) 
+7. [Scripts](#scripts)  
 
 ---
 
@@ -81,6 +82,26 @@ Frontend will run at http://localhost:3000
 
 
 2. The backend and frontend will run in development mode with live reload.
+
+## Running Backend Unit Tests
+
+1. Make sure the backend virtual environment is activated:
+   ```bash
+   source venv/bin/activate  # Linux/macOS/WSDL
+   
+2. Run tests with **pytest**:
+   ```bash
+   cd backend
+   pytest
+
+3. Optional: run with verbose output:
+   ```bash
+   pytest -v
+
+
+**Notes:**
+- All tests are located in the backend/tests folder.
+
 
 ## Scripts
 **run_docker.sh**
