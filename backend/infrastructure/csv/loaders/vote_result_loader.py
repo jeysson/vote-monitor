@@ -19,5 +19,5 @@ def load_vote_results_from_csv(filepath: str) -> Iterable[VoteResult]:
                     id=int(row['id']),
                     legislator_id=int(row['legislator_id']),
                     vote_id=int(row['vote_id']),
-                    vote_type=row['vote_type']
+                    vote_type=int(row['vote_type'])
                 )

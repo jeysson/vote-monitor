@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from backend.entities.vote import Vote
+from backend.domain.vote import Vote
 from typing import List, Optional
 
 """
@@ -13,4 +13,8 @@ class VoteRepository(ABC):
     
     @abstractmethod
     def get_by_id(self, id: int) -> Optional[Vote]:
+        pass
+
+    @abstractmethod
+    def get_by_bill_id(self, bill_id: int) -> List[Vote]:
         pass

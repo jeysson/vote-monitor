@@ -4,7 +4,7 @@ from backend.domain.vote_result import VoteResult
 from backend.interfaces.vote_result_repository import VoteResultRepository
 from backend.infrastructure.csv.loaders.vote_result_loader import load_vote_results_from_csv
 
-class CSVVoteRepository(VoteResultRepository):
+class CSVVoteResultRepository(VoteResultRepository):
 
     def __init__(self, filepath: str):
         self.filepath = filepath
@@ -34,6 +34,15 @@ class CSVVoteRepository(VoteResultRepository):
         
         for voteResult in load_vote_results_from_csv(self.filepath):
             if voteResult.vote_id == vote_id:
+                votesResult.append(voteResult)
+        
+        return votesResult
+    
+    def get_by_vote_ids(self, vote_ids: List[int]) -> List[VoteResult]:
+        votesResult: List[VoteResult] = []
+        
+        for voteResult in load_vote_results_from_csv(self.filepath):
+            if voteResult.vote_id in vote_ids:
                 votesResult.append(voteResult)
         
         return votesResult

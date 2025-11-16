@@ -1,25 +1,47 @@
+from typing import List, Dict
+from backend.interfaces.vote_repository import VoteRepository
+from backend.interfaces.vote_result_repository import VoteResultRepository
+from backend.interfaces.legislator_repository import LegislatorRepository
+
 class VoteService:
 
-    def __init__(self, vote_legislator, vote_repository):
-        self.leg_repo = vote_legislator
-        self.vote_repo = vote_repository
+    def __init__(self, vote_repo: VoteRepository,
+                 vote_result_repo: VoteResultRepository,
+                 legislator_repo: LegislatorRepository):
+        self.vote_repo = vote_repo
+        self.vote_result_repo = vote_result_repo
+        self.leg_repo = legislator_repo
+        
 
-    def get_legislator_vote_summary(self, legislator_id: int):
-        legislator = self.leg_repo.get_by_id(legislator_id)
-        if legislator is None:
-            return None
+    def get_votes_by_legislator(self, legislator_id: int) -> List[Dict]:
+        """Return list of records: {legislator_id, bill_id, vote_type}"""
+        
+        votesResult = self.vote_result_repo.get_by_legislator_id(legislator_id)
 
-        votes = self.vote_repo.get_by_legislatorall()
+        results = []
+        
+        for voteResult in votesResult:
+            vote = self.vote_repo.get_by_id(voteResult.vote_id)
 
-        supported = sum(1 for vote in votes if vote.legislator_id == legislator_id and vote.supported)
-        opposed = sum(1 for vote in votes if vote.legislator_id == legislator_id and not vote.supported)
+            if vote is None:
+                continue
 
-        return {
-            'id': legislator.id,
-            'name': legislator.name,
-            'supported': supported,
-            'opposed': opposed
-        }
+            results.append({
+                'legislator_id': legislator_id,
+                'bill_id': vote.bill_id,
+                'vote_type': voteResult.vote_type
+            })
 
-    def get_vote_by_id(self, vote_id):
-        return self.vote_repository.get_by_id(vote_id)
+
+        return results
+
+    def get_legislator_summary(self, legislator_id: int) -> Dict[str, int]:
+        """Return summary of votes by a legislator:
+        {legislator_id, legislator_name, total_votes, yes_votes, no_votes, abstain_votes}
+        """
+
+        records = self.get_votes_by_legislator(legislator_id)
+        supported = sum(1 for record in records if record['vote_type'] == 1)
+        opposed = sum(1 for record in records if record['vote_type'] == 2)
+
+        return { "supported": supported, "opposed": opposed }

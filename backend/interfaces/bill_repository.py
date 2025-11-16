@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from backend.entities.bill import Bill
+from backend.domain.bill import Bill
 from typing import List, Optional
 
 """

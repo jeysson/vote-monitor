@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from backend.entities.legislator import Legislator
+from backend.domain.legislator import Legislator
 from typing import List, Optional
 
 """

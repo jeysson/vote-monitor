@@ -22,3 +22,7 @@ class VoteResultRepository(ABC):
     @abstractmethod
     def get_by_vote_id(self, vote_id: int) -> List[VoteResult]:
         pass
+
+    @abstractmethod
+    def get_by_vote_ids(self, vote_ids: List[int]) -> List[VoteResult]:
+        pass
